@@ -1,5 +1,6 @@
 import { Response, NextFunction } from 'express';
 import { prisma } from '../config/database.js';
+import { Prisma } from '@prisma/client';
 import { AuthenticatedRequest } from '../types/index.js';
 import { StorageService } from '../services/storage.service.js';
 import { ApiError } from '../utils/ApiError.js';
@@ -26,7 +27,7 @@ export class AssetController {
       const mimeType = req.query.mimeType as string;
       const skip = (page - 1) * limit;
 
-      const whereClause: any = { userId };
+      const whereClause: Prisma.AssetWhereInput = { userId };
       if (mimeType) {
         whereClause.mimeType = { contains: mimeType, mode: 'insensitive' };
       }
