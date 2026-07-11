@@ -63,8 +63,9 @@ export class MetadataService {
       }
 
       return metadata;
-    } catch (error: any) {
-      throw new ApiError(500, `Failed to extract metadata: ${error.message}`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new ApiError(500, `Failed to extract metadata: ${message}`);
     }
   }
 }
