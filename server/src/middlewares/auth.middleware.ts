@@ -24,7 +24,7 @@ export const requireAuth = (
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
     req.user = decoded;
     next();
-  } catch (error) {
+  } catch {
     next(new ApiError(401, 'Unauthorized: Invalid or expired token'));
   }
 };
