@@ -54,7 +54,7 @@ export class AuthService {
       }
 
       return decoded;
-    } catch (error) {
+    } catch {
       throw new ApiError(401, 'Invalid refresh token');
     }
   }
@@ -64,7 +64,7 @@ export class AuthService {
       await prisma.refreshToken.delete({
         where: { token },
       });
-    } catch (error) {
+    } catch {
       // Ignore if token not found or already deleted
     }
   }
