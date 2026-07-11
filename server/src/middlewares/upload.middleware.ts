@@ -79,7 +79,7 @@ export const validateUploadedFile = async (
     }
 
     next();
-  } catch (err) {
+  } catch {
     // Cleanup if file checking fails
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
