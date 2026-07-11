@@ -48,8 +48,9 @@ export class StorageService {
       try {
         await s3Client.send(command);
         return relativeDestPath;
-      } catch (error: any) {
-        throw new ApiError(500, `Failed uploading file to S3: ${error.message}`);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        throw new ApiError(500, `Failed uploading file to S3: ${message}`);
       } finally {
         // Always clean up temp file even if upload fails
         if (fs.existsSync(tempFilePath)) {
@@ -68,7 +69,7 @@ export class StorageService {
       // Use rename or copy+unlink to support cross-device/volume renames
       try {
         await fs.promises.rename(tempFilePath, destPath);
-      } catch (renameError) {
+      } catch {
         await fs.promises.copyFile(tempFilePath, destPath);
         await fs.promises.unlink(tempFilePath);
       }
@@ -89,8 +90,9 @@ export class StorageService {
 
       try {
         await s3Client.send(command);
-      } catch (error: any) {
-        console.error(`Failed deleting file from S3: ${error.message}`);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error(`Failed deleting file from S3: ${message}`);
       }
     } else {
       // Extract local path from URL suffix
