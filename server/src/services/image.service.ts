@@ -40,11 +40,12 @@ export class ImageService {
 
       await pipeline.toFile(outputPath);
       return outputPath;
-    } catch (error: any) {
+    } catch (error) {
       if (fs.existsSync(outputPath)) {
         fs.unlinkSync(outputPath);
       }
-      throw new ApiError(500, `Sharp image processing failed: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new ApiError(500, `Sharp image processing failed: ${message}`);
     }
   }
 
@@ -71,11 +72,12 @@ export class ImageService {
 
       await pipeline.toFile(outputPath);
       return outputPath;
-    } catch (error: any) {
+    } catch (error) {
       if (fs.existsSync(outputPath)) {
         fs.unlinkSync(outputPath);
       }
-      throw new ApiError(500, `Optimizing original failed: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new ApiError(500, `Optimizing original failed: ${message}`);
     }
   }
 }
