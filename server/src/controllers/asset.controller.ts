@@ -165,6 +165,42 @@ export class AssetController {
   }
 
   /**
+   * Get details of a single asset by ID
+   */
+  static async getAsset(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user?.userId;
+      const id = req.params.id;
+
+      if (!userId) {
+        return next(new ApiError(401, 'Unauthorized'));
+      }
+
+      if (typeof id !== 'string') {
+        return next(new ApiError(400, 'Invalid asset ID'));
+      }
+
+      const asset = await prisma.asset.findFirst({
+        where: { id, userId },
+      });
+
+      if (!asset) {
+        return next(new ApiError(404, 'Asset not found'));
+      }
+
+      res.status(200).json(
+        new ApiResponse(200, 'Asset fetched successfully', asset)
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * Delete an asset and clean up its files from the storage service
    */
   static async deleteAsset(
