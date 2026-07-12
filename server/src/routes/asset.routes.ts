@@ -10,6 +10,7 @@ assetRouter.use(requireAuth);
 
 assetRouter.get('/', asyncHandler(AssetController.listAssets));
 assetRouter.get('/search', asyncHandler(AssetController.searchAssets));
+assetRouter.get('/:id', asyncHandler(AssetController.getAsset));
 assetRouter.put('/:id', asyncHandler(AssetController.updateAsset));
 assetRouter.delete('/:id', asyncHandler(AssetController.deleteAsset));
 
