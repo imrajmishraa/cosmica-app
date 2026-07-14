@@ -1,8 +1,8 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { Role } from '@prisma/client';
 import { ApiError } from '../utils/ApiError.js';
 import { AuthenticatedRequest } from '../types/index.js';
-
 import { ENV } from '../config/env.js';
 
 const JWT_SECRET = ENV.JWT_SECRET;
@@ -21,7 +21,7 @@ export const requireAuth = (
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: Role };
     req.user = decoded;
     next();
   } catch {
