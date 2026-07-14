@@ -17,8 +17,8 @@ export class AuthService {
     return bcrypt.compare(password, hash);
   }
 
-  static generateAccessToken(userId: string, email: string): string {
-    return jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: '15m' });
+  static generateAccessToken(userId: string, email: string, role: string): string {
+    return jwt.sign({ userId, email, role }, JWT_SECRET, { expiresIn: '15m' });
   }
 
   static generateRefreshToken(userId: string): string {

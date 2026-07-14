@@ -41,7 +41,7 @@ export class AuthController {
       });
 
       // Generate tokens
-      const accessToken = AuthService.generateAccessToken(user.id, user.email);
+      const accessToken = AuthService.generateAccessToken(user.id, user.email, user.role);
       const refreshToken = AuthService.generateRefreshToken(user.id);
 
       // Save refresh token to db
@@ -55,6 +55,7 @@ export class AuthController {
           user: {
             id: user.id,
             email: user.email,
+            role: user.role,
           },
         })
       );
@@ -79,7 +80,7 @@ export class AuthController {
       }
 
       // Generate tokens
-      const accessToken = AuthService.generateAccessToken(user.id, user.email);
+      const accessToken = AuthService.generateAccessToken(user.id, user.email, user.role);
       const refreshToken = AuthService.generateRefreshToken(user.id);
 
       // Save refresh token to db
@@ -93,6 +94,7 @@ export class AuthController {
           user: {
             id: user.id,
             email: user.email,
+            role: user.role,
           },
         })
       );
@@ -117,11 +119,16 @@ export class AuthController {
       }
 
       // Generate new access token
-      const accessToken = AuthService.generateAccessToken(user.id, user.email);
+      const accessToken = AuthService.generateAccessToken(user.id, user.email, user.role);
 
       res.status(200).json(
         new ApiResponse(200, 'Access token refreshed successfully', {
           accessToken,
+          user: {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+          },
         })
       );
     } catch (error) {
