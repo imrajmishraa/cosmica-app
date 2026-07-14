@@ -59,6 +59,7 @@ export const assetWorker = new Worker<ProcessingJobData>(
           path: originalPath,
           thumbnailPath,
           mediumPath,
+          status: 'COMPLETED',
           metadata: metadata as any,
         },
       });
@@ -72,6 +73,16 @@ export const assetWorker = new Worker<ProcessingJobData>(
     } catch (error: any) {
       console.error(`[Worker] Error processing asset ${assetId}: ${error.message}`);
       
+      // Update status to FAILED in the database
+      try {
+        await prisma.asset.update({
+          where: { id: assetId },
+          data: { status: 'FAILED' },
+        });
+      } catch (dbError) {
+        console.error(`[Worker] Failed to update status to FAILED for asset ${assetId}:`, dbError);
+      }
+
       // Attempt cleanup of temp files
       const pathsToClean = [tempFilePath, optimizedTempPath, thumbnailTempPath, mediumTempPath];
       for (const filePath of pathsToClean) {
