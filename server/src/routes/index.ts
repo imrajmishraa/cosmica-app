@@ -3,12 +3,14 @@ import { prisma } from '../config/database.js';
 import { authRouter } from './auth.routes.js';
 import { uploadRouter } from './upload.routes.js';
 import { assetRouter } from './asset.routes.js';
+import { adminRouter } from './admin.routes.js';
 
 const router = Router();
 
 router.use('/auth', authRouter);
 router.use('/upload', uploadRouter);
 router.use('/assets', assetRouter);
+router.use('/admin', adminRouter);
 
 // Health check endpoint
 router.get('/health', async (_req, res, next) => {
