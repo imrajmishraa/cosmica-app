@@ -67,3 +67,17 @@ export const GuestGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   return <>{children}</>;
 };
+
+export const AdminGuard: React.FC<AuthGuardProps> = ({ children }) => {
+  const { user, isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  if (!isAuthenticated || user?.role !== 'ADMIN') {
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
+};

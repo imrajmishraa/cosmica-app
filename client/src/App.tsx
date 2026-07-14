@@ -2,10 +2,11 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.js';
 import { AssetProvider } from './context/AssetContext.js';
-import { AuthGuard, GuestGuard } from './components/AuthGuard.js';
+import { AuthGuard, GuestGuard, AdminGuard } from './components/AuthGuard.js';
 import { Login } from './pages/Login.js';
 import { Register } from './pages/Register.js';
 import { Dashboard } from './pages/Dashboard.js';
+import { AdminDashboard } from './pages/AdminDashboard.js';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,18 @@ const App: React.FC = () => {
               element={
                 <AuthGuard>
                   <Dashboard />
+                </AuthGuard>
+              }
+            />
+
+            {/* Admin route */}
+            <Route
+              path="/admin"
+              element={
+                <AuthGuard>
+                  <AdminGuard>
+                    <AdminDashboard />
+                  </AdminGuard>
                 </AuthGuard>
               }
             />

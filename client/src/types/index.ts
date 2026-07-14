@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   email: string;
+  role: 'USER' | 'ADMIN';
   createdAt: string;
 }
 
@@ -33,6 +34,9 @@ export interface Asset {
   metadata: AssetMetadata | null;
   createdAt: string;
   updatedAt: string;
+  user?: {
+    email: string;
+  };
 }
 
 export interface AuthResponse {
