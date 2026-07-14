@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { LogOut, Search, Filter, RefreshCw, FolderPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.js';
 import { useAssets } from '../context/AssetContext.js';
@@ -60,6 +61,21 @@ export const Dashboard: React.FC = () => {
           <span style={{ fontSize: '14px', color: 'hsl(var(--text-secondary))', fontWeight: 500 }}>
             Logged in as <strong style={{ color: '#fff' }}>{user?.email.split('@')[0]}</strong>
           </span>
+          {user?.role === 'ADMIN' && (
+            <Link
+              to="/admin"
+              className="btn btn-secondary"
+              style={{
+                padding: '8px 16px',
+                fontSize: '13px',
+                borderColor: 'hsl(var(--accent) / 0.3)',
+                color: 'hsl(var(--accent))',
+                fontWeight: 600,
+              }}
+            >
+              Admin View
+            </Link>
+          )}
           <button
             onClick={logout}
             className="btn btn-secondary"
